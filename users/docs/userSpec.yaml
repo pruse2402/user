@@ -1,0 +1,146 @@
+openapi: 3.0.0
+security:
+  - Authorization: []
+  - Id: []
+info:
+  title: Rest API for users
+  contact: {}
+  version: "1.0"
+servers:
+  - url: http://localhost:9000
+    variables: {}
+paths:
+  /user:
+    post:
+      tags:
+        - User
+      operationId: SaveUser
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        200:
+          description: User Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+  /user/:id:
+    put:
+      tags:
+        - User
+      operationId: UpdateUser
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        200:
+          description: User Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+    get: 
+      tags:
+        - User
+      summary: get a user by Id
+      operationId: GetUser
+      parameters:
+        - $ref: "#/components/parameters/idParam"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+    delete:
+      tags:
+        - User
+      summary: Remove the User
+      operationId: DeleteUser
+      parameters:
+        - $ref: "#/components/parameters/idParam"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+               $ref: "#/components/schemas/UserDeleteResponse"
+  /user/:id/search:
+    get:
+      tags:
+        - User
+      summary: search the user details
+      operationId: GetUserDetails
+      parameters:
+        - $ref: "#/components/parameters/idParam"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+
+
+
+
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      properties:
+        bankruptcyIndicatorFlag:
+          type: boolean
+        companyName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        legalEntityId:
+          type: integer
+          format: int64
+        legalEntityStage:
+          type: string
+        legalEntityType:
+          type: string
+        createdDate:
+          type: string
+        dateOfBirth:
+          type: string
+    UserResponse:
+      title: UserResponse
+      type: object
+      properties:
+        message:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+    UserDeleteResponse:
+      title: UserDeleteResponse
+      type: object
+      properties:
+        message:
+          type: string
+
+  parameters:
+    idParam:
+      name: id
+      in: path
+      description: legalEntityId to get the user details.
+      required: true
+      style: simple
+      schema:
+        type: string

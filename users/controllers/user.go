@@ -140,6 +140,8 @@ func GetUserDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	res := make(map[string]interface{})
+
 	params, _ := ListQueryParams(r)
 
 	db := dbcon.Get()
@@ -179,5 +181,8 @@ func GetUserDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	renderJSON(w, http.StatusOK, user)
+	res["user"] = user
+	res["message"] = "fetched the user details successfully"
+
+	renderJSON(w, http.StatusOK, res)
 }
